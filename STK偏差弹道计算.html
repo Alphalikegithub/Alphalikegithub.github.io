@@ -1,0 +1,1331 @@
+<!DOCTYPE html><html><head>
+      <title>STK偏差弹道计算</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\DOC\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.13\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<div class="md-toc">
+<div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#问题描述" class="md-toc-link">
+            <p>问题描述</p>
+
+          </a></div><details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#星历文件制作" class="md-toc-link"><p>星历文件制作</p>
+</a>
+          </summary>
+        <div>
+          <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#数据处理步骤" class="md-toc-link"><p>数据处理步骤</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#正偏差管道累加弹道" class="md-toc-link">
+            <p>正偏差管道累加弹道</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#负偏差管道累加弹道" class="md-toc-link">
+            <p>负偏差管道累加弹道</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#数据整合" class="md-toc-link"><p>数据整合</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#前提条件" class="md-toc-link">
+            <p>前提条件</p>
+
+          </a></div><details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#版本一使用列名" class="md-toc-link"><p>版本一（使用列名）</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#示例代码" class="md-toc-link">
+            <p>示例代码</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#说明" class="md-toc-link">
+            <p>说明</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#功能描述" class="md-toc-link">
+            <p>功能描述</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#代码功能总结" class="md-toc-link">
+            <p>代码功能总结</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#注意事项" class="md-toc-link">
+            <p>注意事项</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#版本二使用列的索引" class="md-toc-link"><p>版本二（使用列的索引）</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#示例代码-1" class="md-toc-link">
+            <p>示例代码</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#说明-1" class="md-toc-link">
+            <p>说明</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#功能描述-1" class="md-toc-link">
+            <p>功能描述</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#代码功能总结-1" class="md-toc-link">
+            <p>代码功能总结</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#注意事项-1" class="md-toc-link">
+            <p>注意事项</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#版本三版本一的基础上进行改进" class="md-toc-link"><p>版本三（版本一的基础上进行改进）</p>
+</a>
+          </summary>
+        <div>
+          <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#原代码和改进后的代码对比" class="md-toc-link"><p>原代码和改进后的代码对比</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#原代码" class="md-toc-link">
+            <p>原代码</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#改进后的代码" class="md-toc-link">
+            <p>改进后的代码</p>
+
+          </a></div>
+        </div>
+      </details>
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#变化的具体原因" class="md-toc-link">
+            <p>变化的具体原因</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#总结" class="md-toc-link">
+            <p>总结</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#版本四一步到位" class="md-toc-link"><p>版本四(一步到位)</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#第一步" class="md-toc-link">
+            <p>第一步</p>
+
+          </a></div><details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#第二步" class="md-toc-link"><p>第二步</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#说明-2" class="md-toc-link">
+            <p>说明</p>
+
+          </a></div>
+        </div>
+      </details>
+    
+        </div>
+      </details>
+    
+        </div>
+      </details>
+    
+        </div>
+      </details>
+    
+</div>
+<h1 id="问题描述">问题描述 </h1>
+<blockquote>
+<p>在版本四中，对前面三个版本进行了迭代，简化了处理流程。只要按照版本四中规定的格式来创建Excel(.xlsx)文件，再运行Python代码，可快速生成正负偏差弹道的.txt文件。前面篇幅较长，可快速定位到版本四，根据说明文档中的提示进行相应操作。</p>
+</blockquote>
+<p>在 STk 中绘制火箭飞行弹道时，星历文件常采用 <strong>EphemerisTimePosVel 格式</strong> 确定航天器轨道。EphemerisTimePosVel 关键字后的单个数据点如下所示：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>&lt;TimeInSeconds&gt; &lt;X&gt; &lt;Y&gt; &lt;Z&gt; &lt;xDot&gt; &lt;yDot&gt; &lt;zDot&gt;
+</code></pre><p>其中，<code>TimeInSeconds</code> 为相对于 ScenarioEpoch 关键字定义的纪元的时间值（以秒为单位），<code>X</code>、<code>Y</code>、<code>Z</code> 为航天器位置，<code>xDot</code>、<code>yDot</code>、<code>zDot</code> 为航天器速度。</p>
+<p>一般情况下，火箭提供的飞行弹道数据格式如下：</p>
+<table>
+<thead>
+<tr>
+<th>t</th>
+<th>h</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>Vx</th>
+<th>Vy</th>
+<th>Vz</th>
+<th>aVx</th>
+<th>aVy</th>
+<th>aVz</th>
+<th>φ</th>
+<th>ψ</th>
+<th>γ</th>
+<th>λ</th>
+<th>B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.00E+00</td>
+<td>1.00E+01</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>9.00E+01</td>
+<td>0.00E+00</td>
+<td>5.55E-02</td>
+<td>1.11E+02</td>
+<td>1.96E+01</td>
+</tr>
+<tr>
+<td>0.00E+00</td>
+<td>1.00E+01</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>0.00E+00</td>
+<td>9.00E+01</td>
+<td>0.00E+00</td>
+<td>5.55E-02</td>
+<td>1.11E+02</td>
+<td>1.96E+01</td>
+</tr>
+<tr>
+<td>0.00E+00</td>
+<td>1.00E+01</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+</tr>
+</tbody>
+</table>
+<p>以下是“弹道数据符号说明”：</p>
+<table>
+<thead>
+<tr>
+<th>列序号</th>
+<th>参数符号</th>
+<th>单位</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>t</td>
+<td>s</td>
+<td>以起飞为零点的总时间</td>
+</tr>
+<tr>
+<td>2</td>
+<td>h</td>
+<td>m</td>
+<td>海拔高度</td>
+</tr>
+<tr>
+<td>3-5</td>
+<td>x、y、z</td>
+<td>m</td>
+<td>火箭相对发射坐标系的位置分量</td>
+</tr>
+<tr>
+<td>6-8</td>
+<td>Vx、Vy、Vz</td>
+<td>m/s</td>
+<td>火箭相对发射坐标系的速度分量</td>
+</tr>
+<tr>
+<td>9-11</td>
+<td>aVx、aVy、aVz</td>
+<td>m/s²</td>
+<td>火箭相对发射坐标系的加速度分量</td>
+</tr>
+<tr>
+<td>12-14</td>
+<td>φ、ψ、γ</td>
+<td>deg</td>
+<td>火箭相对发射坐标系俯仰、偏航和滚转角</td>
+</tr>
+<tr>
+<td>15-16</td>
+<td>λ、B</td>
+<td>deg</td>
+<td>大地经度、大地纬度</td>
+</tr>
+</tbody>
+</table>
+<p>同时，还会提供位置分量的偏差管道 <code>偏差管道_dX.dat</code> 和速度分量的偏差管道 <code>偏差管道_dV.dat</code>。</p>
+<p><strong>偏差管道_dX.dat</strong> 中的内容格式大致如下：</p>
+<table>
+<thead>
+<tr>
+<th>t</th>
+<th>dX</th>
+<th>dY</th>
+<th>dZ</th>
+<th>-dX</th>
+<th>-dY</th>
+<th>-dZ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.000000</td>
+<td>0.036755</td>
+<td>0.240162</td>
+<td>0.031191</td>
+<td>-0.036771</td>
+<td>-0.256347</td>
+<td>-0.031191</td>
+</tr>
+<tr>
+<td>2.000000</td>
+<td>0.112027</td>
+<td>1.186544</td>
+<td>0.095164</td>
+<td>-0.112041</td>
+<td>-1.221709</td>
+<td>-0.095164</td>
+</tr>
+<tr>
+<td>3.000000</td>
+<td>0.436653</td>
+<td>2.859740</td>
+<td>0.371591</td>
+<td>-0.436564</td>
+<td>-2.913265</td>
+<td>-0.371591</td>
+</tr>
+<tr>
+<td>4.000000</td>
+<td>1.135343</td>
+<td>5.265073</td>
+<td>0.966148</td>
+<td>-1.134983</td>
+<td>-5.336261</td>
+<td>-0.966148</td>
+</tr>
+<tr>
+<td>5.000000</td>
+<td>2.181291</td>
+<td>8.407978</td>
+<td>1.856030</td>
+<td>-2.180465</td>
+<td>-8.496045</td>
+<td>-1.856030</td>
+</tr>
+</tbody>
+</table>
+<p><strong>偏差管道_dV.dat</strong> 中的内容格式大致如下：</p>
+<table>
+<thead>
+<tr>
+<th>t</th>
+<th>dVX</th>
+<th>dVY</th>
+<th>dVZ</th>
+<th>-dVX</th>
+<th>-dVY</th>
+<th>-dVZ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.000000</td>
+<td>0.057394</td>
+<td>0.585046</td>
+<td>0.048698</td>
+<td>-0.057435</td>
+<td>-0.604293</td>
+<td>-0.048698</td>
+</tr>
+<tr>
+<td>2.000000</td>
+<td>0.201342</td>
+<td>1.309047</td>
+<td>0.171338</td>
+<td>-0.201281</td>
+<td>-1.327728</td>
+<td>-0.171338</td>
+</tr>
+<tr>
+<td>3.000000</td>
+<td>0.530809</td>
+<td>2.038452</td>
+<td>0.451671</td>
+<td>-0.530628</td>
+<td>-2.056477</td>
+<td>-0.451671</td>
+</tr>
+<tr>
+<td>4.000000</td>
+<td>0.890543</td>
+<td>2.773272</td>
+<td>0.757667</td>
+<td>-0.890189</td>
+<td>-2.790552</td>
+<td>-0.757667</td>
+</tr>
+<tr>
+<td>5.000000</td>
+<td>1.205135</td>
+<td>3.513579</td>
+<td>1.025239</td>
+<td>-1.204552</td>
+<td>-3.530037</td>
+<td>-1.025239</td>
+</tr>
+</tbody>
+</table>
+<h1 id="星历文件制作">星历文件制作 </h1>
+<p>制作星历文件时，将 <strong>飞行弹道数据文件</strong> 中以下列的数据与 <code>偏差管道_dX.dat</code> 中对应的列相加，并生成新的文件：</p>
+<h2 id="数据处理步骤">数据处理步骤 </h2>
+<h3 id="正偏差管道累加弹道">正偏差管道累加弹道 </h3>
+<ol>
+<li>
+<p><strong>飞行弹道数据文件</strong> 中的以下列：</p>
+<ul>
+<li>列 <strong><code>x</code></strong></li>
+<li>列 <strong><code>y</code></strong></li>
+<li>列 <strong><code>z</code></strong></li>
+</ul>
+<p>分别与 <strong><code>偏差管道_dX.dat</code></strong> 中对应的以下列：</p>
+<ul>
+<li>列 <strong><code>dX</code></strong></li>
+<li>列 <strong><code>dY</code></strong></li>
+<li>列 <strong><code>dZ</code></strong></li>
+</ul>
+<p>相加。</p>
+</li>
+<li>
+<p><strong>飞行弹道数据文件</strong> 中的以下列：</p>
+<ul>
+<li>列 <strong><code>Vx</code></strong></li>
+<li>列 <strong><code>Vy</code></strong></li>
+<li>列 <strong><code>Vz</code></strong></li>
+</ul>
+<p>分别与 <strong><code>偏差管道_dV.dat</code></strong> 中对应的以下列：</p>
+<ul>
+<li>列 <strong><code>dVx</code></strong></li>
+<li>列 <strong><code>dVy</code></strong></li>
+<li>列 <strong><code>dVz</code></strong></li>
+</ul>
+<p>相加。</p>
+</li>
+<li>
+<p>将结果生成一个名为 <strong>“正偏差管道累加弹道.xlsx”</strong> 的文件。新文件中应包含以下七列：</p>
+<ul>
+<li>第一列：与 <strong><code>偏差管道_dX.dat</code></strong> 中的 <strong><code>列t</code></strong> 相同。</li>
+<li>其余六列分别为：
+<ul>
+<li><strong><code>x</code></strong> 与 <strong><code>dX</code></strong> 之和</li>
+<li><strong><code>y</code></strong> 与 <strong><code>dY</code></strong> 之和</li>
+<li><strong><code>z</code></strong> 与 <strong><code>dZ</code></strong> 之和</li>
+<li><strong><code>Vx</code></strong> 与 <strong><code>dVx</code></strong> 之和</li>
+<li><strong><code>Vy</code></strong> 与 <strong><code>dVy</code></strong> 之和</li>
+<li><strong><code>Vz</code></strong> 与 <strong><code>dVz</code></strong> 之和</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="负偏差管道累加弹道">负偏差管道累加弹道 </h3>
+<p>重复以上步骤，但将 <strong>飞行弹道数据文件</strong> 中的 <strong><code>x</code></strong>、<strong><code>y</code></strong>、<strong><code>z</code></strong> 分别与 <strong><code>偏差管道_dX.dat</code></strong> 中的 <strong><code>-dX</code></strong>、<strong><code>-dY</code></strong>、<strong><code>-dZ</code></strong> 相加，将 <strong><code>Vx</code></strong>、<strong><code>Vy</code></strong>、<strong><code>Vz</code></strong> 分别与 <strong><code>偏差管道_dV.dat</code></strong> 中的 <strong><code>-dVx</code></strong>、<strong><code>-dVy</code></strong>、<strong><code>-dVz</code></strong> 相加，生成一个名为 <strong>“负偏差管道累加弹道.xlsx”</strong> 的文件。</p>
+<hr>
+<h2 id="数据整合">数据整合 </h2>
+<blockquote>
+<p>通常情况下，都是使用Excel表格进行两列求和，最后再把 <strong>“正偏差管道累加弹道.xlsx”</strong> 和 <strong>“负偏差管道累加弹道.xlsx”</strong> ，转换成STK软件中指定的 <strong><code>.e</code></strong> 文件格式。使用Excel中的求和公式虽然操作直观，但比较耗费时间。</p>
+</blockquote>
+<p>根据上述描述，用Python实现了上面的求和流程，可以使用 Pandas 库来处理 Excel 文件，并执行所需的列相加操作。以下是完整的 Python 代码示例，该代码将读取 Excel 文件，进行所需的列相加操作，并将结果保存到一个新的 Excel 文件中，最后将这个Excel文件的内容导出为TXT文件。</p>
+<h3 id="前提条件">前提条件 </h3>
+<p>需要将 <strong>飞行弹道数据文件</strong> 中的以下列：<br>
+- 列 <strong><code>t</code></strong><br>
+- 列 <strong><code>x</code></strong><br>
+- 列 <strong><code>y</code></strong><br>
+- 列 <strong><code>z</code></strong><br>
+- 列 <strong><code>Vx</code></strong><br>
+- 列 <strong><code>Vy</code></strong><br>
+- 列 <strong><code>Vz</code></strong></p>
+<p>和 <strong><code>偏差管道_dX.dat</code></strong> 中对应的以下列：<br>
+- 列 <strong><code>t1</code></strong><br>
+- 列 <strong><code>dX</code></strong><br>
+- 列 <strong><code>dY</code></strong><br>
+- 列 <strong><code>dZ</code></strong></p>
+<blockquote>
+<p>注：列 <strong><code>t1</code></strong> 即 <em><strong>偏差管道_dX.dat</strong></em> 中的时间列 <strong><code>t</code></strong> ,为了不和 <strong>飞行弹道数据文件</strong> 中的列重合，故命名为t1。</p>
+</blockquote>
+<p>以及 <strong><code>偏差管道_dV.dat</code></strong> 中对应的以下列：<br>
+- 列 <strong><code>dVx</code></strong><br>
+- 列 <strong><code>dVy</code></strong><br>
+- 列 <strong><code>dVz</code></strong></p>
+<p>提取到一个Excel表格中，最终正偏差文件格式如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>t</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>Vx</th>
+<th>Vy</th>
+<th>Vz</th>
+<th>t1</th>
+<th>dX</th>
+<th>dY</th>
+<th>dZ</th>
+<th>dVx</th>
+<th>dVy</th>
+<th>dVz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1.07888E-05</td>
+<td>0.721024564</td>
+<td>0.000161362</td>
+<td>5.55202E-05</td>
+<td>1.634542285</td>
+<td>0.00049646</td>
+<td>1</td>
+<td>0.036755</td>
+<td>0.240162</td>
+<td>0.031191</td>
+<td>0.057394</td>
+<td>0.585046</td>
+<td>0.048698</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.000178408</td>
+<td>3.299521293</td>
+<td>0.001337773</td>
+<td>0.000314243</td>
+<td>3.530553301</td>
+<td>0.002033107</td>
+<td>2</td>
+<td>0.112027</td>
+<td>1.186544</td>
+<td>0.095164</td>
+<td>0.201342</td>
+<td>1.309047</td>
+<td>0.171338</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.000707389</td>
+<td>7.797960922</td>
+<td>0.0045763</td>
+<td>0.000778608</td>
+<td>5.474532348</td>
+<td>0.004622583</td>
+<td>3</td>
+<td>0.436653</td>
+<td>2.85974</td>
+<td>0.371591</td>
+<td>0.530809</td>
+<td>2.038452</td>
+<td>0.451671</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.001804434</td>
+<td>14.26461979</td>
+<td>0.010935275</td>
+<td>0.00145071</td>
+<td>7.467097746</td>
+<td>0.008275762</td>
+<td>4</td>
+<td>1.135343</td>
+<td>5.265073</td>
+<td>0.966148</td>
+<td>0.890543</td>
+<td>2.773272</td>
+<td>0.757667</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.003678261</td>
+<td>22.74839759</td>
+<td>0.021483497</td>
+<td>0.002332483</td>
+<td>9.508877873</td>
+<td>0.013002687</td>
+<td>5</td>
+<td>2.181291</td>
+<td>8.407978</td>
+<td>1.85603</td>
+<td>1.205135</td>
+<td>3.513579</td>
+<td>1.025239</td>
+</tr>
+</tbody>
+</table>
+<p>最终负偏差文件格式如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>t</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>Vx</th>
+<th>Vy</th>
+<th>Vz</th>
+<th>t1</th>
+<th>负dX</th>
+<th>负dY</th>
+<th>负dZ</th>
+<th>负dVx</th>
+<th>负dVy</th>
+<th>负dVz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1.07888E-05</td>
+<td>0.721024564</td>
+<td>0.000161362</td>
+<td>5.55202E-05</td>
+<td>1.634542285</td>
+<td>0.00049646</td>
+<td>1</td>
+<td>-0.036771</td>
+<td>-0.256347</td>
+<td>-0.031191</td>
+<td>-0.057435</td>
+<td>-0.604293</td>
+<td>-0.048698</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.000178408</td>
+<td>3.299521293</td>
+<td>0.001337773</td>
+<td>0.000314243</td>
+<td>3.530553301</td>
+<td>0.002033107</td>
+<td>2</td>
+<td>-0.112041</td>
+<td>-1.221709</td>
+<td>-0.095164</td>
+<td>-0.201281</td>
+<td>-1.327728</td>
+<td>-0.171338</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.000707389</td>
+<td>7.797960922</td>
+<td>0.0045763</td>
+<td>0.000778608</td>
+<td>5.474532348</td>
+<td>0.004622583</td>
+<td>3</td>
+<td>-0.436564</td>
+<td>-2.913265</td>
+<td>-0.371591</td>
+<td>-0.530628</td>
+<td>-2.056477</td>
+<td>-0.451671</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.001804434</td>
+<td>14.26461979</td>
+<td>0.010935275</td>
+<td>0.00145071</td>
+<td>7.467097746</td>
+<td>0.008275762</td>
+<td>4</td>
+<td>-1.134983</td>
+<td>-5.336261</td>
+<td>-0.966148</td>
+<td>-0.890189</td>
+<td>-2.790552</td>
+<td>-0.757667</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.003678261</td>
+<td>22.74839759</td>
+<td>0.021483497</td>
+<td>0.002332483</td>
+<td>9.508877873</td>
+<td>0.013002687</td>
+<td>5</td>
+<td>-2.180465</td>
+<td>-8.496045</td>
+<td>-1.85603</td>
+<td>-1.204552</td>
+<td>-3.530037</td>
+<td>-1.025239</td>
+</tr>
+</tbody>
+</table>
+<p>将上面这张表格分别重命名为 <strong><code>正偏差.xlsx</code></strong> 和 <strong><code>负偏差.xlsx</code></strong> 文件，即可使用Python进行处理。</p>
+<hr>
+<p>点击此处返回<a href="#%E7%89%88%E6%9C%AC%E5%9B%9B%E4%B8%80%E6%AD%A5%E5%88%B0%E4%BD%8D">版本四</a></p>
+<h3 id="版本一使用列名">版本一（使用列名） </h3>
+<h4 id="示例代码">示例代码 </h4>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-import">import</span> pandas <span class="token keyword keyword-as">as</span> pd
+
+<span class="token comment"># 第一步：读取并处理Excel文件</span>
+input_excel_file <span class="token operator">=</span> <span class="token string">'srcfile/正偏差.xlsx'</span>
+output_excel_file <span class="token operator">=</span> <span class="token string">'out/正偏差管道累加弹道.xlsx'</span>
+output_txt_file <span class="token operator">=</span> <span class="token string">'out/正偏差管道累加弹道.txt'</span>
+
+<span class="token comment"># 读取Excel文件</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>input_excel_file<span class="token punctuation">)</span>
+
+<span class="token comment"># 进行列数据的相加</span>
+df<span class="token punctuation">[</span><span class="token string">'x+dX'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dX'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'y+dY'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dY'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'z+dZ'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'z'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dZ'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vx+dVx'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vx'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dVx'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vy+dVy'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vy'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dVy'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vz+dVz'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vz'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dVz'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 选择所需的列进行保存</span>
+result_df <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'t1'</span><span class="token punctuation">,</span> <span class="token string">'x+dX'</span><span class="token punctuation">,</span> <span class="token string">'y+dY'</span><span class="token punctuation">,</span> <span class="token string">'z+dZ'</span><span class="token punctuation">,</span> <span class="token string">'Vx+dVx'</span><span class="token punctuation">,</span> <span class="token string">'Vy+dVy'</span><span class="token punctuation">,</span> <span class="token string">'Vz+dVz'</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 导出为新的Excel文件</span>
+result_df<span class="token punctuation">.</span>to_excel<span class="token punctuation">(</span>output_excel_file<span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"正偏差累加数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_excel_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 第二步：读取并导出为TXT文件</span>
+<span class="token comment"># 读取Excel文件</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>output_excel_file<span class="token punctuation">)</span>
+
+<span class="token comment"># 将所有行数据写入TXT文件</span>
+df<span class="token punctuation">.</span>to_csv<span class="token punctuation">(</span>output_txt_file<span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">'\t'</span><span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"所有行数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_txt_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+</code></pre><h4 id="说明">说明 </h4>
+<p>以上程序包含了以下几个步骤：</p>
+<ol>
+<li>读取原始Excel文件 <code>srcfile/正偏差数据文件.xlsx</code> 并进行相加操作。</li>
+<li>将相加后的结果保存为新的Excel文件 <code>out/简单正偏差累加.xlsx</code>。</li>
+<li>读取新生成的Excel文件，并将所有行数据导出为TXT文件 <code>out/简单正偏差累加.txt</code>。</li>
+</ol>
+<p>可以运行这个完整的程序来实现你的需求。确保文件路径正确，并且文件夹结构符合预期。</p>
+<p>上面的代码可以实现以下功能：</p>
+<h4 id="功能描述">功能描述 </h4>
+<ol>
+<li>
+<p><strong>读取并处理 Excel 文件</strong></p>
+<ul>
+<li>读取名为 <strong>'srcfile/正偏差.xlsx'</strong> 的 Excel 文件。</li>
+<li>对读取的 Excel 文件中的特定列进行相加操作。
+<ul>
+<li>列 <strong>'x'</strong> 与列 <strong>'dX'</strong> 相加，结果存入新列 <strong>'x+dX'</strong>。</li>
+<li>列 <strong>'y'</strong> 与列 <strong>'dY'</strong> 相加，结果存入新列 <strong>'y+dY'</strong>。</li>
+<li>列 <strong>'z'</strong> 与列 <strong>'dZ'</strong> 相加，结果存入新列 <strong>'z+dZ'</strong>。</li>
+<li>列 <strong>'Vx'</strong> 与列 <strong>'dVx'</strong> 相加，结果存入新列 <strong>'Vx+dVx'</strong>。</li>
+<li>列 <strong>'Vy'</strong> 与列 <strong>'dVy'</strong> 相加，结果存入新列 <strong>'Vy+dVy'</strong>。</li>
+<li>列 <strong>'Vz'</strong> 与列 <strong>'dVz'</strong> 相加，结果存入新列 <strong>'Vz+dVz'</strong>。</li>
+</ul>
+</li>
+<li>选择并保存新的数据列。
+<ul>
+<li>选择列 <strong>'t1'</strong>、<strong>'x+dX'</strong>、<strong>'y+dY'</strong>、<strong>'z+dZ'</strong>、<strong>'Vx+dVx'</strong>、<strong>'Vy+dVy'</strong> 和 <strong>'Vz+dVz'</strong>。</li>
+</ul>
+</li>
+<li>将处理后的数据导出为新的 Excel 文件，文件名为 <strong>'out/简单正偏差累加2.xlsx'</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>将 Excel 文件导出为 TXT 文件</strong></p>
+<ul>
+<li>读取刚刚生成的 Excel 文件 <strong>'out/简单正偏差累加2.xlsx'</strong>。</li>
+<li>将 Excel 文件中的所有数据行导出为一个 TXT 文件，文件名为 <strong>'out/简单正偏差累加2.txt'</strong>，数据之间以制表符 (<code>\t</code>) 分隔。</li>
+</ul>
+</li>
+</ol>
+<h4 id="代码功能总结">代码功能总结 </h4>
+<ul>
+<li>读取原始 Excel 文件并进行列数据的相加操作。</li>
+<li>将处理后的数据保存到新的 Excel 文件中。</li>
+<li>再将新的 Excel 文件中的数据导出为 TXT 文件。</li>
+</ul>
+<hr>
+<h4 id="注意事项">注意事项 </h4>
+<p>如果运行时遇到问题，可以检查以下方面：</p>
+<ol>
+<li>确保文件路径正确无误。</li>
+<li>确保列名准确无误（与实际文件中的列名相符）。</li>
+<li>确保所有文件格式正确且可以被 Pandas 读取。</li>
+</ol>
+<p>运行该代码后，新的 Excel 文件 “正偏差累加.xlsx” 将包含所需的合并列。</p>
+<h3 id="版本二使用列的索引">版本二（使用列的索引） </h3>
+<p>你可以通过列的索引来指定要进行操作的列，而不是使用列名。这可以通过Pandas的<code>.iloc</code>属性来实现。以下是一个示例代码，它将读取Excel文件，进行指定列的相加操作，并导出为新的Excel文件和TXT文件。</p>
+<h4 id="示例代码-1">示例代码 </h4>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-import">import</span> pandas <span class="token keyword keyword-as">as</span> pd
+
+<span class="token comment"># 第一步：读取并处理Excel文件</span>
+input_excel_file <span class="token operator">=</span> <span class="token string">'srcfile/正偏差.xlsx'</span>
+output_excel_file <span class="token operator">=</span> <span class="token string">'out/简单正偏差累加3.xlsx'</span>
+output_txt_file <span class="token operator">=</span> <span class="token string">'out/简单正偏差累加3.txt'</span>
+
+<span class="token comment"># 读取Excel文件</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>input_excel_file<span class="token punctuation">)</span>
+
+<span class="token comment"># 进行列数据的相加</span>
+df<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'z'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vx'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vy'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vz'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 选择所需的列进行保存</span>
+result_df <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'t1'</span><span class="token punctuation">,</span> <span class="token string">'x'</span><span class="token punctuation">,</span> <span class="token string">'y'</span><span class="token punctuation">,</span> <span class="token string">'z'</span><span class="token punctuation">,</span> <span class="token string">'Vx'</span><span class="token punctuation">,</span> <span class="token string">'Vy'</span><span class="token punctuation">,</span> <span class="token string">'Vz'</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 导出为新的Excel文件</span>
+result_df<span class="token punctuation">.</span>to_excel<span class="token punctuation">(</span>output_excel_file<span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"正偏差累加数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_excel_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 第二步：读取并导出为TXT文件</span>
+<span class="token comment"># 读取Excel文件</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>output_excel_file<span class="token punctuation">)</span>
+
+<span class="token comment"># 将所有行数据写入TXT文件</span>
+df<span class="token punctuation">.</span>to_csv<span class="token punctuation">(</span>output_txt_file<span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">'\t'</span><span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"所有行数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_txt_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+</code></pre><h4 id="说明-1">说明 </h4>
+<ul>
+<li><code>df.iloc[:, 0]</code> 表示第1列，<code>df.iloc[:, 3]</code> 表示第4列，依次类推。</li>
+<li>使用 <code>iloc</code> 可以根据列的索引进行操作，而不是列名。</li>
+<li>最终结果保存在新的Excel文件和TXT文件中。</li>
+</ul>
+<p>请确保你的列数和索引匹配，并根据需要调整代码。如果列数更多，你可以继续扩展相应的操作。</p>
+<p>这段代码的功能与之前的类似，但有一些关键变化。以下是该代码的功能描述：</p>
+<h4 id="功能描述-1">功能描述 </h4>
+<ol>
+<li>
+<p><strong>读取并处理 Excel 文件</strong></p>
+<ul>
+<li>读取名为 <strong>'srcfile/正偏差.xlsx'</strong> 的 Excel 文件。</li>
+<li>对读取的 Excel 文件中的特定列进行相加操作，但这里是直接使用列索引而不是列名。
+<ul>
+<li>列索引 <strong>1</strong> 与列索引 <strong>9</strong> 相加，结果存入新列 <strong>'x'</strong>。</li>
+<li>列索引 <strong>2</strong> 与列索引 <strong>10</strong> 相加，结果存入新列 <strong>'y'</strong>。</li>
+<li>列索引 <strong>3</strong> 与列索引 <strong>11</strong> 相加，结果存入新列 <strong>'z'</strong>。</li>
+<li>列索引 <strong>4</strong> 与列索引 <strong>13</strong> 相加，结果存入新列 <strong>'Vx'</strong>。</li>
+<li>列索引 <strong>5</strong> 与列索引 <strong>14</strong> 相加，结果存入新列 <strong>'Vy'</strong>。</li>
+<li>列索引 <strong>6</strong> 与列索引 <strong>15</strong> 相加，结果存入新列 <strong>'Vz'</strong>。</li>
+</ul>
+</li>
+<li>选择并保存新的数据列。
+<ul>
+<li>选择列 <strong>'t1'</strong>、<strong>'x'</strong>、<strong>'y'</strong>、<strong>'z'</strong>、<strong>'Vx'</strong>、<strong>'Vy'</strong> 和 <strong>'Vz'</strong>。</li>
+</ul>
+</li>
+<li>将处理后的数据导出为新的 Excel 文件，文件名为 <strong>'out/简单正偏差累加3.xlsx'</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>将 Excel 文件导出为 TXT 文件</strong></p>
+<ul>
+<li>读取刚刚生成的 Excel 文件 <strong>'out/简单正偏差累加3.xlsx'</strong>。</li>
+<li>将 Excel 文件中的所有数据行导出为一个 TXT 文件，文件名为 <strong>'out/简单正偏差累加3.txt'</strong>，数据之间以制表符 (<code>\t</code>) 分隔。</li>
+</ul>
+</li>
+</ol>
+<h4 id="代码功能总结-1">代码功能总结 </h4>
+<ul>
+<li><strong>读取原始 Excel 文件并进行列数据的相加操作</strong>，这里是通过列索引进行相加，而不是列名。</li>
+<li><strong>将处理后的数据保存到新的 Excel 文件中</strong>，文件名为 <strong>'out/简单正偏差累加3.xlsx'</strong>。</li>
+<li><strong>再将新的 Excel 文件中的数据导出为 TXT 文件</strong>，文件名为 <strong>'out/简单正偏差累加3.txt'</strong>。</li>
+</ul>
+<h4 id="注意事项-1">注意事项 </h4>
+<ul>
+<li>代码假设 <strong>'srcfile/正偏差.xlsx'</strong> 文件中的列数据从第 2 列开始依次是需要相加的列（即从索引 1 开始）。</li>
+<li>输出文件名中的数字（如 <code>3</code>）是唯一标识符，用于区分不同的输出文件。</li>
+</ul>
+<p>该代码段将完成所有步骤，从读取 Excel 文件到处理并保存新的 Excel 文件，然后再导出为 TXT 文件。</p>
+<h3 id="版本三版本一的基础上进行改进">版本三（版本一的基础上进行改进） </h3>
+<p>该版本下可以一次性读取 <strong><code>正偏差.xlsx</code></strong> 和 <strong><code>负偏差.xlsx</code></strong> 两个文件，核心逻辑并没有改变，主要的变化在于：</p>
+<ol>
+<li><strong>封装重复代码到函数中</strong>：将重复的代码逻辑提取出来，放在一个函数<code>process_deviation</code>中，以减少冗余，提高代码的可读性和可维护性。</li>
+<li><strong>使用参数化处理</strong>：通过传递参数给函数，处理正偏差和负偏差的逻辑可以复用同一个函数，而不需要写两遍相似的代码。</li>
+</ol>
+<p>这两种方法都遵循了编程中的一个重要原则：<strong>Don't Repeat Yourself (DRY)</strong>。以下是具体的改进内容和原因：</p>
+<h4 id="原代码和改进后的代码对比">原代码和改进后的代码对比 </h4>
+<h5 id="原代码">原代码 </h5>
+<p>原代码的结构如下：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-import">import</span> pandas <span class="token keyword keyword-as">as</span> pd
+
+<span class="token comment"># 第一步：读取并处理Excel文件</span>
+input_excel_file <span class="token operator">=</span> <span class="token string">'srcfile/正偏差.xlsx'</span>
+output_excel_file <span class="token operator">=</span> <span class="token string">'out/简单正偏差累加2.xlsx'</span>
+output_txt_file <span class="token operator">=</span> <span class="token string">'out/简单正偏差累加2.txt'</span>
+
+<span class="token comment"># 读取Excel文件</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>input_excel_file<span class="token punctuation">)</span>
+
+<span class="token comment"># 进行列数据的相加</span>
+df<span class="token punctuation">[</span><span class="token string">'x+dX'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dX'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'y+dY'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dY'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'z+dZ'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'z'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dZ'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vx+dVx'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vx'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dVx'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vy+dVy'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vy'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dVy'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vz+dVz'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vz'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dVz'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 选择所需的列进行保存</span>
+result_df <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'t1'</span><span class="token punctuation">,</span> <span class="token string">'x+dX'</span><span class="token punctuation">,</span> <span class="token string">'y+dY'</span><span class="token punctuation">,</span> <span class="token string">'z+dZ'</span><span class="token punctuation">,</span> <span class="token string">'Vx+dVx'</span><span class="token punctuation">,</span> <span class="token string">'Vy+dVy'</span><span class="token punctuation">,</span> <span class="token string">'Vz+dVz'</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 导出为新的Excel文件</span>
+result_df<span class="token punctuation">.</span>to_excel<span class="token punctuation">(</span>output_excel_file<span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"正偏差累加数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_excel_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 第二步：读取并导出为TXT文件</span>
+<span class="token comment"># 读取Excel文件</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>output_excel_file<span class="token punctuation">)</span>
+
+<span class="token comment"># 将所有行数据写入TXT文件</span>
+df<span class="token punctuation">.</span>to_csv<span class="token punctuation">(</span>output_txt_file<span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">'\t'</span><span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"所有行数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_txt_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 第一步：读取并处理Excel文件</span>
+input_excel_file <span class="token operator">=</span> <span class="token string">'srcfile/负偏差.xlsx'</span>
+output_excel_file <span class="token operator">=</span> <span class="token string">'out/简单负偏差累加2.xlsx'</span>
+output_txt_file <span class="token operator">=</span> <span class="token string">'out/简单负偏差累加2.txt'</span>
+
+<span class="token comment"># 读取Excel文件</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>input_excel_file<span class="token punctuation">)</span>
+
+<span class="token comment"># 进行列数据的相加</span>
+df<span class="token punctuation">[</span><span class="token string">'x-dX'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'负dX'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'y-dY'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'负dY'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'z-dZ'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'z'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'负dZ'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vx-dVx'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vx'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'负dVx'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vy-dVy'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vy'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'负dVy'</span><span class="token punctuation">]</span>
+df<span class="token punctuation">[</span><span class="token string">'Vz-dVz'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vz'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'负dVz'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 选择所需的列进行保存</span>
+result_df <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'t1'</span><span class="token punctuation">,</span> <span class="token string">'x-dX'</span><span class="token punctuation">,</span> <span class="token string">'y-dY'</span><span class="token punctuation">,</span> <span class="token string">'z-dZ'</span><span class="token punctuation">,</span> <span class="token string">'Vx-dVx'</span><span class="token punctuation">,</span> <span class="token string">'Vy-dVy'</span><span class="token punctuation">,</span> <span class="token string">'Vz-dVz'</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 导出为新的Excel文件</span>
+result_df<span class="token punctuation">.</span>to_excel<span class="token punctuation">(</span>output_excel_file<span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"负偏差累加数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_excel_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 第二步：读取并导出为TXT文件</span>
+<span class="token comment"># 读取Excel文件</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>output_excel_file<span class="token punctuation">)</span>
+
+<span class="token comment"># 将所有行数据写入TXT文件</span>
+df<span class="token punctuation">.</span>to_csv<span class="token punctuation">(</span>output_txt_file<span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">'\t'</span><span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"所有行数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_txt_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+</code></pre><h5 id="改进后的代码">改进后的代码 </h5>
+<p>改进后的代码如下：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-import">import</span> pandas <span class="token keyword keyword-as">as</span> pd
+
+<span class="token keyword keyword-def">def</span> <span class="token function">process_deviation</span><span class="token punctuation">(</span>input_file<span class="token punctuation">,</span> output_excel_file<span class="token punctuation">,</span> output_txt_file<span class="token punctuation">,</span> deviation_columns<span class="token punctuation">,</span> custom_headers<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 读取Excel文件</span>
+    df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>input_file<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 进行列数据的处理</span>
+    <span class="token keyword keyword-for">for</span> col<span class="token punctuation">,</span> deviation_col <span class="token keyword keyword-in">in</span> deviation_columns<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        df<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">f'</span><span class="token interpolation"><span class="token punctuation">{</span>col<span class="token punctuation">}</span></span><span class="token string">+</span><span class="token interpolation"><span class="token punctuation">{</span>deviation_col<span class="token punctuation">}</span></span><span class="token string">'</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span>col<span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span>deviation_col<span class="token punctuation">]</span>
+    
+    <span class="token comment"># 选择所需的列进行保存</span>
+    result_df <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'t1'</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">f'</span><span class="token interpolation"><span class="token punctuation">{</span>col<span class="token punctuation">}</span></span><span class="token string">+</span><span class="token interpolation"><span class="token punctuation">{</span>deviation_col<span class="token punctuation">}</span></span><span class="token string">'</span></span> <span class="token keyword keyword-for">for</span> col<span class="token punctuation">,</span> deviation_col <span class="token keyword keyword-in">in</span> deviation_columns<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+    
+    <span class="token comment"># 修改表头</span>
+    result_df<span class="token punctuation">.</span>columns <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'t1'</span><span class="token punctuation">]</span> <span class="token operator">+</span> custom_headers
+    
+    <span class="token comment"># 导出为新的Excel文件</span>
+    result_df<span class="token punctuation">.</span>to_excel<span class="token punctuation">(</span>output_excel_file<span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_excel_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 将所有行数据写入TXT文件</span>
+    result_df<span class="token punctuation">.</span>to_csv<span class="token punctuation">(</span>output_txt_file<span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">'\t'</span><span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_txt_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 正偏差处理</span>
+input_excel_file_pos <span class="token operator">=</span> <span class="token string">'srcfile/正偏差.xlsx'</span>
+output_excel_file_pos <span class="token operator">=</span> <span class="token string">'out/简单正偏差累加2.xlsx'</span>
+output_txt_file_pos <span class="token operator">=</span> <span class="token string">'out/简单正偏差累加2.txt'</span>
+deviation_columns_pos <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'x'</span><span class="token punctuation">:</span> <span class="token string">'dX'</span><span class="token punctuation">,</span>
+    <span class="token string">'y'</span><span class="token punctuation">:</span> <span class="token string">'dY'</span><span class="token punctuation">,</span>
+    <span class="token string">'z'</span><span class="token punctuation">:</span> <span class="token string">'dZ'</span><span class="token punctuation">,</span>
+    <span class="token string">'Vx'</span><span class="token punctuation">:</span> <span class="token string">'dVx'</span><span class="token punctuation">,</span>
+    <span class="token string">'Vy'</span><span class="token punctuation">:</span> <span class="token string">'dVy'</span><span class="token punctuation">,</span>
+    <span class="token string">'Vz'</span><span class="token punctuation">:</span> <span class="token string">'dVz'</span>
+<span class="token punctuation">}</span>
+custom_headers_pos <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'x+dX'</span><span class="token punctuation">,</span> <span class="token string">'y+dY'</span><span class="token punctuation">,</span> <span class="token string">'z+dZ'</span><span class="token punctuation">,</span> <span class="token string">'Vx+dVx'</span><span class="token punctuation">,</span> <span class="token string">'Vy+dVy'</span><span class="token punctuation">,</span> <span class="token string">'Vz+dVz'</span><span class="token punctuation">]</span>
+process_deviation<span class="token punctuation">(</span>input_excel_file_pos<span class="token punctuation">,</span> output_excel_file_pos<span class="token punctuation">,</span> output_txt_file_pos<span class="token punctuation">,</span> deviation_columns_pos<span class="token punctuation">,</span> custom_headers_pos<span class="token punctuation">)</span>
+
+<span class="token comment"># 负偏差处理</span>
+input_excel_file_neg <span class="token operator">=</span> <span class="token string">'srcfile/负偏差.xlsx'</span>
+output_excel_file_neg <span class="token operator">=</span> <span class="token string">'out/简单负偏差累加2.xlsx'</span>
+output_txt_file_neg <span class="token operator">=</span> <span class="token string">'out/简单负偏差累加2.txt'</span>
+deviation_columns_neg <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'x'</span><span class="token punctuation">:</span> <span class="token string">'负dX'</span><span class="token punctuation">,</span>
+    <span class="token string">'y'</span><span class="token punctuation">:</span> <span class="token string">'负dY'</span><span class="token punctuation">,</span>
+    <span class="token string">'z'</span><span class="token punctuation">:</span> <span class="token string">'负dZ'</span><span class="token punctuation">,</span>
+    <span class="token string">'Vx'</span><span class="token punctuation">:</span> <span class="token string">'负dVx'</span><span class="token punctuation">,</span>
+    <span class="token string">'Vy'</span><span class="token punctuation">:</span> <span class="token string">'负dVy'</span><span class="token punctuation">,</span>
+    <span class="token string">'Vz'</span><span class="token punctuation">:</span> <span class="token string">'负dVz'</span>
+<span class="token punctuation">}</span>
+custom_headers_neg <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'x-dX'</span><span class="token punctuation">,</span> <span class="token string">'y-dY'</span><span class="token punctuation">,</span> <span class="token string">'z-dZ'</span><span class="token punctuation">,</span> <span class="token string">'Vx-dVx'</span><span class="token punctuation">,</span> <span class="token string">'Vy-dVy'</span><span class="token punctuation">,</span> <span class="token string">'Vz-dVz'</span><span class="token punctuation">]</span>
+process_deviation<span class="token punctuation">(</span>input_excel_file_neg<span class="token punctuation">,</span> output_excel_file_neg<span class="token punctuation">,</span> output_txt_file_neg<span class="token punctuation">,</span> deviation_columns_neg<span class="token punctuation">,</span> custom_headers_neg<span class="token punctuation">)</span>
+
+</code></pre><h4 id="变化的具体原因">变化的具体原因 </h4>
+<ol>
+<li><strong>封装函数</strong>：将重复的代码封装到 <code>process_deviation</code> 函数中，提高了代码的复用性和可维护性。</li>
+<li><strong>参数化处理</strong>：通过传递文件路径和列名映射作为参数，使函数更具通用性，减少了硬编码。</li>
+<li><strong>减少重复</strong>：原代码中正偏差和负偏差的处理几乎相同，改进后的代码通过一个函数实现相同的逻辑，避免了代码重复。</li>
+<li><strong>增加 <code>custom_headers</code> 参数</strong>：新增了一个 <code>custom_headers</code> 参数，用于接收自定义的表头列表。</li>
+<li><strong>修改列名</strong>：在生成结果 DataFrame 后，使用 <code>result_df.columns</code> 来修改列名，使其符合你的需求。</li>
+</ol>
+<h4 id="总结">总结 </h4>
+<p>虽然改进后的代码看起来变化较大，但它们的核心逻辑完全相同。改进后的代码结构更清晰、可读性更高、更易于维护。</p>
+<h3 id="版本四一步到位">版本四(一步到位) </h3>
+<h4 id="第一步">第一步 </h4>
+<p>在进行下面的操作之前，务必将代码中用到的源文件 <strong><code>偏差弹道.xlsx</code></strong> 里面的格式修改成如下形式：（操作步骤可参考<a href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6">前提条件</a>中提到的内容）</p>
+<table>
+<thead>
+<tr>
+<th>t</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>Vx</th>
+<th>Vy</th>
+<th>Vz</th>
+<th>t1</th>
+<th>dX</th>
+<th>dY</th>
+<th>dZ</th>
+<th>dVx</th>
+<th>dVy</th>
+<th>dVz</th>
+<th>负dX</th>
+<th>负dY</th>
+<th>负dZ</th>
+<th>负dVx</th>
+<th>负dVy</th>
+<th>负dVz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1.07888E-05</td>
+<td>0.721024564</td>
+<td>0.000161362</td>
+<td>5.55202E-05</td>
+<td>1.634542285</td>
+<td>0.00049646</td>
+<td>1</td>
+<td>0.036755</td>
+<td>0.240162</td>
+<td>0.031191</td>
+<td>0.057394</td>
+<td>0.585046</td>
+<td>0.048698</td>
+<td>-0.036771</td>
+<td>-0.256347</td>
+<td>-0.031191</td>
+<td>-0.057435</td>
+<td>-0.604293</td>
+<td>-0.048698</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.000178408</td>
+<td>3.299521293</td>
+<td>0.001337773</td>
+<td>0.000314243</td>
+<td>3.530553301</td>
+<td>0.002033107</td>
+<td>2</td>
+<td>0.112027</td>
+<td>1.186544</td>
+<td>0.095164</td>
+<td>0.201342</td>
+<td>1.309047</td>
+<td>0.171338</td>
+<td>-0.112041</td>
+<td>-1.221709</td>
+<td>-0.095164</td>
+<td>-0.201281</td>
+<td>-1.327728</td>
+<td>-0.171338</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.000707389</td>
+<td>7.797960922</td>
+<td>0.0045763</td>
+<td>0.000778608</td>
+<td>5.474532348</td>
+<td>0.004622583</td>
+<td>3</td>
+<td>0.436653</td>
+<td>2.85974</td>
+<td>0.371591</td>
+<td>0.530809</td>
+<td>2.038452</td>
+<td>0.451671</td>
+<td>-0.436564</td>
+<td>-2.913265</td>
+<td>-0.371591</td>
+<td>-0.530628</td>
+<td>-2.056477</td>
+<td>-0.451671</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.001804434</td>
+<td>14.26461979</td>
+<td>0.010935275</td>
+<td>0.00145071</td>
+<td>7.467097746</td>
+<td>0.008275762</td>
+<td>4</td>
+<td>1.135343</td>
+<td>5.265073</td>
+<td>0.966148</td>
+<td>0.890543</td>
+<td>2.773272</td>
+<td>0.757667</td>
+<td>-1.134983</td>
+<td>-5.336261</td>
+<td>-0.966148</td>
+<td>-0.890189</td>
+<td>-2.790552</td>
+<td>-0.757667</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.003678261</td>
+<td>22.74839759</td>
+<td>0.021483497</td>
+<td>0.002332483</td>
+<td>9.508877873</td>
+<td>0.013002687</td>
+<td>5</td>
+<td>2.181291</td>
+<td>8.407978</td>
+<td>1.85603</td>
+<td>1.205135</td>
+<td>3.513579</td>
+<td>1.025239</td>
+<td>-2.180465</td>
+<td>-8.496045</td>
+<td>-1.85603</td>
+<td>-1.204552</td>
+<td>-3.530037</td>
+<td>-1.025239</td>
+</tr>
+</tbody>
+</table>
+<h4 id="第二步">第二步 </h4>
+<p>可以将代码分为两个步骤。第一个步骤是生成“正偏差累加.xlsx”文件，第二个步骤是生成“负偏差累加.xlsx”文件。而且需要在生成 Excel 文件后，再将其内容导出为 TXT 文件。以下是完整的代码，包括生成正偏差和负偏差累加 Excel 文件，以及将其内容导出为 TXT 文件的步骤：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-import">import</span> pandas <span class="token keyword keyword-as">as</span> pd
+
+<span class="token comment"># 第一步：读取并处理Excel文件</span>
+input_excel_file <span class="token operator">=</span> <span class="token string">'srcfile/偏差弹道.xlsx'</span>
+output_positive_excel_file <span class="token operator">=</span> <span class="token string">'out/正偏差累加弹道.xlsx'</span>
+output_positive_txt_file <span class="token operator">=</span> <span class="token string">'out/正偏差累加弹道.txt'</span>
+output_negative_excel_file <span class="token operator">=</span> <span class="token string">'out/负偏差累加弹道.xlsx'</span>
+output_negative_txt_file <span class="token operator">=</span> <span class="token string">'out/负偏差累加弹道.txt'</span>
+output_original_txt_file <span class="token operator">=</span> <span class="token string">'out/正常弹道.txt'</span>
+
+<span class="token comment"># 读取Excel文件</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>input_excel_file<span class="token punctuation">)</span>
+
+<span class="token comment"># 选择需要的列</span>
+df_selected_columns <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'t'</span><span class="token punctuation">,</span> <span class="token string">'x'</span><span class="token punctuation">,</span> <span class="token string">'y'</span><span class="token punctuation">,</span> <span class="token string">'z'</span><span class="token punctuation">,</span> <span class="token string">'Vx'</span><span class="token punctuation">,</span> <span class="token string">'Vy'</span><span class="token punctuation">,</span> <span class="token string">'Vz'</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 将选择的列导出为TXT文件</span>
+df_selected_columns<span class="token punctuation">.</span>to_csv<span class="token punctuation">(</span>output_original_txt_file<span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">'\t'</span><span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"选定列数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_original_txt_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 进行正偏差的列数据相加</span>
+df_positive <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span><span class="token punctuation">)</span>
+df_positive<span class="token punctuation">[</span><span class="token string">'t1'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'t1'</span><span class="token punctuation">]</span>
+df_positive<span class="token punctuation">[</span><span class="token string">'x+dX'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dX'</span><span class="token punctuation">]</span>
+df_positive<span class="token punctuation">[</span><span class="token string">'y+dY'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dY'</span><span class="token punctuation">]</span>
+df_positive<span class="token punctuation">[</span><span class="token string">'z+dZ'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'z'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dZ'</span><span class="token punctuation">]</span>
+df_positive<span class="token punctuation">[</span><span class="token string">'Vx+dVx'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vx'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dVx'</span><span class="token punctuation">]</span>
+df_positive<span class="token punctuation">[</span><span class="token string">'Vy+dVy'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vy'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dVy'</span><span class="token punctuation">]</span>
+df_positive<span class="token punctuation">[</span><span class="token string">'Vz+dVz'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vz'</span><span class="token punctuation">]</span> <span class="token operator">+</span> df<span class="token punctuation">[</span><span class="token string">'dVz'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 导出为新的Excel文件</span>
+df_positive<span class="token punctuation">.</span>to_excel<span class="token punctuation">(</span>output_positive_excel_file<span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"正偏差累加数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_positive_excel_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># # 将正偏差累加数据导出为TXT文件</span>
+<span class="token comment"># df_positive.to_csv(output_positive_txt_file, sep='\t', index=False)</span>
+<span class="token comment"># print(f"正偏差累加数据已成功导出到 {output_positive_txt_file}")</span>
+
+<span class="token comment"># 读取生成的Excel文件并导出为TXT文件</span>
+df_positive <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>output_positive_excel_file<span class="token punctuation">)</span>
+df_positive<span class="token punctuation">.</span>to_csv<span class="token punctuation">(</span>output_positive_txt_file<span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">'\t'</span><span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"正偏差累加数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_positive_txt_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 进行负偏差的列数据相加</span>
+df_negative <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span><span class="token punctuation">)</span>
+df_negative<span class="token punctuation">[</span><span class="token string">'t1'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'t1'</span><span class="token punctuation">]</span>
+df_negative<span class="token punctuation">[</span><span class="token string">'x-dX'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span> <span class="token operator">-</span> df<span class="token punctuation">[</span><span class="token string">'dX'</span><span class="token punctuation">]</span>
+df_negative<span class="token punctuation">[</span><span class="token string">'y-dY'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span> <span class="token operator">-</span> df<span class="token punctuation">[</span><span class="token string">'dY'</span><span class="token punctuation">]</span>
+df_negative<span class="token punctuation">[</span><span class="token string">'z-dZ'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'z'</span><span class="token punctuation">]</span> <span class="token operator">-</span> df<span class="token punctuation">[</span><span class="token string">'dZ'</span><span class="token punctuation">]</span>
+df_negative<span class="token punctuation">[</span><span class="token string">'Vx-dVx'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vx'</span><span class="token punctuation">]</span> <span class="token operator">-</span> df<span class="token punctuation">[</span><span class="token string">'dVx'</span><span class="token punctuation">]</span>
+df_negative<span class="token punctuation">[</span><span class="token string">'Vy-dVy'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vy'</span><span class="token punctuation">]</span> <span class="token operator">-</span> df<span class="token punctuation">[</span><span class="token string">'dVy'</span><span class="token punctuation">]</span>
+df_negative<span class="token punctuation">[</span><span class="token string">'Vz-dVz'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'Vz'</span><span class="token punctuation">]</span> <span class="token operator">-</span> df<span class="token punctuation">[</span><span class="token string">'dVz'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 导出为新的Excel文件</span>
+df_negative<span class="token punctuation">.</span>to_excel<span class="token punctuation">(</span>output_negative_excel_file<span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"负偏差累加数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_negative_excel_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># # 将负偏差累加数据导出为TXT文件</span>
+<span class="token comment"># df_negative.to_csv(output_negative_txt_file, sep='\t', index=False)</span>
+<span class="token comment"># print(f"负偏差累加数据已成功导出到 {output_negative_txt_file}")</span>
+
+<span class="token comment"># 读取生成的Excel文件并导出为TXT文件</span>
+df_negative <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span>output_negative_excel_file<span class="token punctuation">)</span>
+df_negative<span class="token punctuation">.</span>to_csv<span class="token punctuation">(</span>output_negative_txt_file<span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">'\t'</span><span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"负偏差累加数据已成功导出到 </span><span class="token interpolation"><span class="token punctuation">{</span>output_negative_txt_file<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+</code></pre><h5 id="说明-2">说明 </h5>
+<ol>
+<li>
+<p><strong>读取并处理 Excel 文件</strong></p>
+<ul>
+<li>读取文件名为 <code>srcfile/偏差弹道.xlsx</code> 的 Excel 文件。</li>
+<li>生成的 <code>正常弹道.txt</code> 文件将只包含 <code>t, x, y, z, Vx, Vy, Vz</code> 这些列的数据。</li>
+</ul>
+</li>
+<li>
+<p><strong>生成正偏差累加数据</strong></p>
+<ul>
+<li>创建新的 DataFrame <code>df_positive</code>。</li>
+<li>将 <code>t1</code> 列保留。</li>
+<li>将 <code>x</code> 列与 <code>dX</code> 列相加，结果存入新列 <code>x+dX</code>。</li>
+<li>将 <code>y</code> 列与 <code>dY</code> 列相加，结果存入新列 <code>y+dY</code>。</li>
+<li>将 <code>z</code> 列与 <code>dZ</code> 列相加，结果存入新列 <code>z+dZ</code>。</li>
+<li>将 <code>Vx</code> 列与 <code>dVx</code> 列相加，结果存入新列 <code>Vx+dVx</code>。</li>
+<li>将 <code>Vy</code> 列与 <code>dVy</code> 列相加，结果存入新列 <code>Vy+dVy</code>。</li>
+<li>将 <code>Vz</code> 列与 <code>dVz</code> 列相加，结果存入新列 <code>Vz+dVz</code>。</li>
+<li>导出 <code>df_positive</code> 为新的 Excel 文件 <code>out/正偏差累加.xlsx</code>。</li>
+<li>读取生成的 Excel 文件并导出为 TXT 文件 <code>out/正偏差累加.txt</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>生成负偏差累加数据</strong></p>
+<ul>
+<li>创建新的 DataFrame <code>df_negative</code>。</li>
+<li>将 <code>t1</code> 列保留。</li>
+<li>将 <code>x</code> 列与 <code>负dX</code> 列相加，结果存入新列 <code>x+负dX</code>。</li>
+<li>将 <code>y</code> 列与 <code>负dY</code> 列相加，结果存入新列 <code>y+负dY</code>。</li>
+<li>将 <code>z</code> 列与 <code>负dZ</code> 列相加，结果存入新列 <code>z+负dZ</code>。</li>
+<li>将 <code>Vx</code> 列与 <code>负dVx</code> 列相加，结果存入新列 <code>Vx+负dVx</code>。</li>
+<li>将 <code>Vy</code> 列与 <code>负dVy</code> 列相加，结果存入新列 <code>Vy+负dVy</code>。</li>
+<li>将 <code>Vz</code> 列与 <code>负dVz</code> 列相加，结果存入新列 <code>Vz+负dVz</code>。</li>
+<li>导出 <code>df_negative</code> 为新的 Excel 文件 <code>out/负偏差累加.xlsx</code>。</li>
+<li>读取生成的 Excel 文件并导出为 TXT 文件 <code>out/负偏差累加.txt</code>。</li>
+</ul>
+</li>
+</ol>
+<p>这样，就可以分别生成正偏差和负偏差的累加数据，并将其导出为 Excel 和 TXT 文件。</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
